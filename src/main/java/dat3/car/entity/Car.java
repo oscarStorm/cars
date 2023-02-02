@@ -4,7 +4,11 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Setter
@@ -23,6 +27,12 @@ public class Car {
     private double pricePrDay;
     @Column(name = "max_discount")
     private Integer bestDiscount;
+    @Column
+    @CreationTimestamp
+    private LocalDateTime created;
+    @Column
+    @UpdateTimestamp
+    private LocalDateTime lastEdited;
 
 
     public Car(String brand, String model, double pricePrDay, Integer bestDiscount){
@@ -30,7 +40,6 @@ public class Car {
         this.model = model;
         this.pricePrDay = pricePrDay;
         this.bestDiscount = bestDiscount;
-
     }
 
 
