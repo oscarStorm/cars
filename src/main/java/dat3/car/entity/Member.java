@@ -1,6 +1,7 @@
 package dat3.car.entity;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Getter;
@@ -8,12 +9,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Setter
 @Getter
+
 @Entity
 public class Member {
     @Id
@@ -34,7 +35,6 @@ public class Member {
     @UpdateTimestamp
     private LocalDateTime lastEdited1;
 
-
     public Member(String user, String password, String email,
                   String firstName, String lastName, String street, String city, String zip) {
         this.username = user;
@@ -45,6 +45,5 @@ public class Member {
         this.street = street;
         this.city = city;
         this.zip = zip;
-
     }
 }

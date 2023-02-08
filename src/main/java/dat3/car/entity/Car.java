@@ -7,14 +7,13 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.jpa.repository.JpaRepository;
-
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Setter
 @Getter
-@Entity
 
+@Entity
 public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,13 +33,11 @@ public class Car {
     @UpdateTimestamp
     private LocalDateTime lastEdited;
 
-
     public Car(String brand, String model, double pricePrDay, Integer bestDiscount){
         this.brand = brand;
         this.model = model;
         this.pricePrDay = pricePrDay;
         this.bestDiscount = bestDiscount;
     }
-
 
 }

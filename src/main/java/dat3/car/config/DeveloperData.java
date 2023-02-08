@@ -7,16 +7,13 @@ import dat3.car.repository.MemberRepository;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Configuration;
-
 import java.time.LocalDateTime;
 
 @Configuration
 public class DeveloperData  implements ApplicationRunner{
 
-
     @Override
     public void run(ApplicationArguments args) throws Exception {
-
 
         Car car = new Car("jaguar", "sport", 500, 60);
         Car car1 = new Car("toyota", "lort", 100, 20);
@@ -25,6 +22,7 @@ public class DeveloperData  implements ApplicationRunner{
         carRepository.save(car);
         carRepository.save(car1);
         carRepository.save(car2);
+
         Member m1 = new Member("Dennis", "123", "dennis@gmail.com", "Dennissen", "Gormsen", "Frejsvej", "Ishøj", "2670" );
         Member m2 = new Member("Jon", "1321", "jon@gmail.com", "jon", "helgesen", "nørrebrogade", "københavn", "2200" );
         Member m3 = new Member("kasper", "1241", "kasper@gmail.com", "kasper", "tomsen", "Rolighedsvej", "frederiksberg", "1958" );
@@ -34,6 +32,7 @@ public class DeveloperData  implements ApplicationRunner{
         memberRepository.save(m3);
 
     }
+    
     private CarRepository carRepository;
     private MemberRepository memberRepository;
 
@@ -41,12 +40,4 @@ public class DeveloperData  implements ApplicationRunner{
         this.carRepository = carRepository;
         this.memberRepository = memberRepository;
     }
-
-
-
-
-
-
-
-
 }
