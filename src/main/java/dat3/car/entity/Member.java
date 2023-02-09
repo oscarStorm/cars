@@ -46,4 +46,6 @@ public class Member {
         this.city = city;
         this.zip = zip;
     }
+
+
 }

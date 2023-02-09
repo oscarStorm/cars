@@ -8,5 +8,4 @@ public interface MemberRepository extends JpaRepository<Member, String> {
 
     boolean existsByEmail(String email);
 
-
 }

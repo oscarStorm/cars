@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/members")
@@ -19,6 +20,7 @@ class MemberController {
     MemberService memberService;
 
     public MemberController(MemberService memberService){
+
         this.memberService = memberService;
     }
 
@@ -31,7 +33,7 @@ class MemberController {
 
     //ADMIN ONLY
     @GetMapping(path = "/{username}")
-    MemberResponse getMemberById(@PathVariable String username) throws Exception {return null;}
+    MemberResponse getMemberById(@PathVariable String username) throws Exception {return memberService.findMemberByUsername(username);}
 
     //ANONYMOUS
     //@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -42,17 +44,22 @@ class MemberController {
 
     //MEMBER
     @PutMapping("/{username}")
-    ResponseEntity<Boolean> editMember(@RequestBody MemberRequest body, @PathVariable String username){
-        return null;
+    public ResponseEntity<Boolean> editMember(@PathVariable String username, @RequestBody MemberRequest body) {
+
+        return memberService.editMember(body, username);
     }
 
     //ADMIN ONLY
     @PatchMapping("/ranking/{username}/{value}")
-    void setRankingForUser(@PathVariable String username, @PathVariable int value) {}
+    public MemberResponse setRankingForUser(@PathVariable String username, @PathVariable int value) {
+        return memberService.setRankingForUsers(username, value);
+    }
 
     // ADMIN ONLY
     @DeleteMapping("/{username}")
-    void deleteMemberByUsername(@PathVariable String username) {}
+    void deleteMemberByUsername(@PathVariable String username) {
+        memberService.deleteMemberByUsername(username);
+    }
 
 
 }

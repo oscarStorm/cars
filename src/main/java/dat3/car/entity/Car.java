@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int Id;
+    private int id;
     @Column(name = "car_brand")
     private String brand;
     @Column(name = "car_model")
