@@ -9,6 +9,8 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Configuration;
 import java.time.LocalDateTime;
 
+//opdateret CI/CD
+
 @Configuration
 public class DeveloperData  implements ApplicationRunner{
 
