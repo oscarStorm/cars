@@ -1,26 +1,23 @@
 package dat3.car.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
+import java.util.*;
 
 @NoArgsConstructor
 @Setter
 @Getter
 
 @Entity
-public class Member {
-    @Id
-    private String username;
-    private String password;
-    private String email;
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "USER_TYPE")
+public class Member extends dat3.car.security.entity.UserWithRoles {
+
     private String firstName;
     private String lastName;
     private String street;
@@ -37,9 +34,7 @@ public class Member {
 
     public Member(String user, String password, String email,
                   String firstName, String lastName, String street, String city, String zip) {
-        this.username = user;
-        this.password= password;
-        this.email = email;
+        super(user,password,email);
         this.firstName = firstName;
         this.lastName = lastName;
         this.street = street;
@@ -47,5 +42,23 @@ public class Member {
         this.zip = zip;
     }
 
+    @ElementCollection
+    List<String> favoriteCarColors = new ArrayList<>();
+
+    @ElementCollection
+    @MapKeyColumn(name = "description")
+    @Column(name = "phone_number")
+    Map<String,String> phones = new HashMap<>();
+
+    @OneToMany(mappedBy = "member",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    Set<Reservation> reservations = new HashSet<>();
+
+    public void addReservation(Reservation r){
+        if(reservations ==null){
+            reservations =new HashSet<>();
+        }
+        reservations.add(r);
+        r.setMember(this);
+    }
 
 }

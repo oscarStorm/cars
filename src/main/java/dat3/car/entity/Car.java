@@ -7,7 +7,12 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 @NoArgsConstructor
 @Setter
@@ -38,6 +43,28 @@ public class Car {
         this.model = model;
         this.pricePrDay = pricePrDay;
         this.bestDiscount = bestDiscount;
+    }
+    @OneToMany(mappedBy = "car",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    Set<Reservation> reservations = new HashSet<>();
+
+    public void addReservation(Reservation r){
+        if(reservations ==null){
+            reservations =new HashSet<>();
+        }
+        reservations.add(r);
+        r.setCar(this);
+    }
+
+    public boolean checkDate(LocalDate date){
+        Iterator<Reservation> iterator = reservations.iterator();
+        while (iterator.hasNext()){
+            Reservation reservation = iterator.next();
+            if(reservation.date.equals(date)){
+                System.out.println("Date already exists");
+                return true;
+            }
+        }
+        return false;
     }
 
 }
