@@ -21,6 +21,10 @@ public class CarService {
 
     CarRepository carRepository;
 
+    public CarService(CarRepository carRepository){
+        this.carRepository = carRepository;
+    }
+
     public List<CarResponse> getCars(boolean includeAll) {
 
         List<Car> cars = carRepository.findAll();
