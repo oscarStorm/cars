@@ -5,7 +5,12 @@ import dat3.car.dto.CarRequest;
 import dat3.car.dto.CarResponse;
 import dat3.car.dto.MemberRequest;
 import dat3.car.dto.MemberResponse;
+import dat3.car.entity.Car;
 import dat3.car.service.CarService;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,11 +27,14 @@ public class CarController {
         this.carService =  carService;
     }
 
+
+
     //ADMIN ONLY
     @GetMapping
     List<CarResponse> getCars(){
-        return carService.getCars(false);
+        return carService.getCars(true);
     }
+
 
     //ADMIN ONLY
     @GetMapping(path="/{id}")
@@ -35,8 +43,7 @@ public class CarController {
     }
 
     //ANONYMOUS
-    //@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @PostMapping
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     CarResponse addCar(@RequestBody CarRequest body){
         return carService.addCar(body);
     }
@@ -44,8 +51,8 @@ public class CarController {
     //MEMBER
     @PutMapping("/{id}")
     public ResponseEntity<Boolean> editCar(@PathVariable int id, @RequestBody CarRequest body) {
-
-        return carService.editCar(body, id);
+        carService.editCar(body,id);
+        return ResponseEntity.ok(true);
     }
 
     //ADMIN ONLY

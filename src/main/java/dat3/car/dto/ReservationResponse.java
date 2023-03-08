@@ -23,7 +23,7 @@ public class ReservationResponse {
 
     //Car variables
     String brand;
-    Long carID;
+    int carID;
     String model;
     //Member variables
     String username;
@@ -33,7 +33,7 @@ public class ReservationResponse {
     public ReservationResponse(Reservation r,boolean trueForMember,boolean trueForCar){
         this.date=r.getDate();
         if(trueForMember) {
-            this.carID = Long.valueOf(r.getCar().getId());
+            this.carID = r.getCar().getId();
             this.brand = r.getCar().getBrand();
             this.model = r.getCar().getModel();
         } else if (trueForCar){
@@ -45,7 +45,7 @@ public class ReservationResponse {
 
     public ReservationResponse(Reservation r) {
         this.date=r.getDate();
-        this.carID = Long.valueOf(r.getCar().getId());
+        this.carID = r.getCar().getId();
         this.username=r.getMember().getUsername();
     }
 }

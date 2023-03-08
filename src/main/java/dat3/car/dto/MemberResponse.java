@@ -3,11 +3,15 @@ package dat3.car.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import dat3.car.entity.Member;
+import dat3.car.entity.Reservation;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -29,20 +33,31 @@ public class MemberResponse {
     Integer ranking;
     Boolean approved;
 
+    Map<String,String> phones;
+    Set<ReservationResponse> reservations;
+
     //Convert Member Entity to Member DTO
-    public MemberResponse(Member m, boolean includeAll) {
+    public MemberResponse(Member m, boolean includeAll, boolean includeReservation) {
         this.username = m.getUsername();
         this.email = m.getEmail();
         this.street = m.getStreet();
-        this.firstName =m.getFirstName();
+        this.firstName = m.getFirstName();
         this.lastName = m.getLastName();
         this.city = m.getCity();
         this.zip = m.getZip();
-        if(includeAll){
-            this.created = m.getCreated1();
-            this.edited = m.getLastEdited1();
+        this.phones = m.getPhones();
+        if (includeAll) {
+            this.created = m.getCreated();
             this.approved = m.isApproved();
             this.ranking = m.getRanking();
+        }
+
+        if (includeReservation && m.getReservations() != null) {
+            Set<ReservationResponse> reservationResponses = new HashSet<>();
+            for (Reservation reservation : m.getReservations()) {
+                reservationResponses.add(new ReservationResponse(reservation,true,false));
+            }
+            this.reservations = reservationResponses;
         }
     }
 }

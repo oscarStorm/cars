@@ -1,9 +1,7 @@
 package dat3.car.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,9 +12,11 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-@NoArgsConstructor
-@Setter
 @Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 
 @Entity
 public class Car {

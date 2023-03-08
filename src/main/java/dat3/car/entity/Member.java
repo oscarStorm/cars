@@ -1,22 +1,23 @@
 package dat3.car.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 import java.util.*;
+import dat3.car.security.entity.UserWithRoles;
 
-@NoArgsConstructor
-@Setter
 @Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "USER_TYPE")
-public class Member extends dat3.car.security.entity.UserWithRoles {
+public class Member extends UserWithRoles {
 
     private String firstName;
     private String lastName;

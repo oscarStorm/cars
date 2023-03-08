@@ -22,38 +22,38 @@ public class ReservationService {
         }
 
         public ReservationResponse makeReservation(ReservationRequest request){
-            if(!request.getCar().checkDate(request.getReservationDate()) && validityDateCheck(request.getReservationDate())){
-                Reservation newReservation = ReservationRequest.getReservationDateEntity(request);
-                reservationRepository.save(newReservation);
-                request.getCar().addReservation(newReservation);
-                request.getMember().addReservation(newReservation);
-                return new ReservationResponse(newReservation,true,true);
-            }
-            return null;
-
+        if(!request.getCar().checkDate(request.getReservationDate()) && validityDateCheck(request.getReservationDate())){
+            Reservation newReservation = ReservationRequest.getReservationDateEntity(request);
+            reservationRepository.save(newReservation);
+            request.getCar().addReservation(newReservation);
+            request.getMember().addReservation(newReservation);
+            return new ReservationResponse(newReservation,true,true);
         }
+        return null;
+        }
+
         public boolean validityDateCheck(LocalDate date){
-            if(date.isBefore(LocalDate.now())){
-                System.out.println("date is in the past");
-                return false;
-            }
-            return true;
+        if(date.isBefore(LocalDate.now())){
+            System.out.println("date is in the past");
+            return false;
+        }
+        return true;
         }
 
         public List<ReservationResponse> getReservations() {
-            List<Reservation> reservations = reservationRepository.findAll();
-            return reservations.stream().map(ReservationResponse::new).toList();
+        List<Reservation> reservations = reservationRepository.findAll();
+        return reservations.stream().map(ReservationResponse::new).toList();
         }
 
         public int numberOfReservations(Member member){
-            int i=reservationRepository.findReservationsByMember(member).size();
-            return i;
+        int i=reservationRepository.findReservationsByMember(member).size();
+        return i;
         }
 
         public List<ReservationResponse> reservationsByMember(Member member) {
-            List<Reservation> reservations =  reservationRepository.findReservationsByMember(member);
-            List<ReservationResponse> reservationResponses = reservations.stream().map(r->new ReservationResponse(r,true,true)).toList();
-            return reservationResponses;
+        List<Reservation> reservations =  reservationRepository.findReservationsByMember(member);
+        List<ReservationResponse> reservationResponses = reservations.stream().map(r->new ReservationResponse(r,true,true)).toList();
+        return reservationResponses;
         }
 
 }

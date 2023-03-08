@@ -9,6 +9,9 @@ import java.util.List;
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation,String> {
 
+
+    boolean existsByEmail(String email);
+
     List<Reservation> findReservationsByMember(Member member);
 
 }

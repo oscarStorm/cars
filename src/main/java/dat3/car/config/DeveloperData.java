@@ -12,18 +12,37 @@ import dat3.car.repository.ReservationRepository;
 import dat3.car.security.entity.Role;
 import dat3.car.security.entity.UserWithRoles;
 import dat3.car.service.ReservationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.stereotype.Controller;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 //opdateret CI/CD
+@Controller
 @EnableJpaRepositories(basePackages = {"dat3.car.security.repository","dat3.car.repository"})
-@Configuration
 public class DeveloperData  implements ApplicationRunner{
+
+    @Autowired
+    CarRepository carRepository;
+    MemberRepository memberRepository;
+    ReservationRepository reservationRepository;
+    ReservationService reservationService;
+    UserWithRolesRepository userWithRolesRepository;
+
+    public DeveloperData(CarRepository carRepository, MemberRepository memberRepository, ReservationRepository reservationRepository, ReservationService reservationService, UserWithRolesRepository userWithRolesRepository){
+        this.carRepository = carRepository;
+        this.memberRepository = memberRepository;
+        this.reservationRepository = reservationRepository;
+        this.reservationService = reservationService;
+        this.userWithRolesRepository = userWithRolesRepository;
+
+    }
+
 
     final String passwordUsedByAll = "12";
 
@@ -63,21 +82,10 @@ public class DeveloperData  implements ApplicationRunner{
 
     }
     
-    private CarRepository carRepository;
-    private MemberRepository memberRepository;
-    ReservationRepository reservationRepository;
-    ReservationService reservationService;
-    UserWithRolesRepository userWithRolesRepository;
 
 
-    public DeveloperData(CarRepository carRepository, MemberRepository memberRepository, ReservationRepository reservationRepository, ReservationService reservationService, UserWithRolesRepository userWithRolesRepository){
-        this.carRepository = carRepository;
-        this.memberRepository = memberRepository;
-        this.reservationRepository = reservationRepository;
-        this.reservationService = reservationService;
-        this.userWithRolesRepository = userWithRolesRepository;
 
-    }
+
     private void setupUserWithRoleUsers() {
 
         System.out.println("******************************************************************************");

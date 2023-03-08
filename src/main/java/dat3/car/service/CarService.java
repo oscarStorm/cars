@@ -8,6 +8,7 @@ import dat3.car.dto.MemberResponse;
 import dat3.car.entity.Car;
 import dat3.car.entity.Member;
 import dat3.car.repository.CarRepository;
+import dat3.car.repository.ReservationRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -20,9 +21,11 @@ import java.util.Optional;
 public class CarService {
 
     CarRepository carRepository;
+    ReservationRepository reservationRepository;
 
-    public CarService(CarRepository carRepository){
+    public CarService(CarRepository carRepository, ReservationRepository reservationRepository){
         this.carRepository = carRepository;
+        this.reservationRepository = reservationRepository;
     }
 
     public List<CarResponse> getCars(boolean includeAll) {
@@ -34,49 +37,56 @@ public class CarService {
 
     }
 
+    public Car findCar(int id){
+
+        carRepository.findById(String.valueOf(id)).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Car with this ID doesnt exist"));
+        Optional<Car> c = carRepository.findById(String.valueOf(id));
+        Car car = c.orElse(null);
+
+        return car;
+    }
+
+
     public CarResponse findCarById(int id) {
-        Car c = carRepository.findById(id).orElseThrow( ()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"Member with this ID does not exist"));
-        CarResponse carResponse = new CarResponse(c, true);
-        return carResponse;
+
+        Car car = findCar(id);
+        CarResponse carRepsonse = new CarResponse(car,true);
+
+        return carRepsonse;
     }
 
 
     public CarResponse addCar(CarRequest carRequest) {
-        //Later you should add error checks --> Missing arguments, email taken etc.
+
         Car newCar = CarRequest.getCarEntity(carRequest);
         newCar = carRepository.save(newCar);
 
-        return new CarResponse(newCar,false);
+        return new CarResponse(newCar,true);
     }
 
 
-    public ResponseEntity<Boolean> editCar(CarRequest body, int id) {
-        Car editedCar = carRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Member with this ID does not exist"));
+    public void editCar(CarRequest body, int id) {
 
-        editedCar.setBestDiscount(body.getBestDiscount());
-        editedCar.setBrand(body.getBrand());
-        editedCar.setModel(body.getModel());
-        editedCar.setPricePrDay(body.getPricePrDay());
-        carRepository.save(editedCar);
-
-        return new ResponseEntity<>(true, HttpStatus.OK);
+        Car carToEdit =  findCar(id);
+        Optional.ofNullable(body.getBrand()).ifPresent(carToEdit::setBrand);
+        Optional.ofNullable(body.getModel()).ifPresent(carToEdit::setModel);
+        Optional.ofNullable(body.getPricePrDay()).ifPresent(carToEdit::setPricePrDay);
+        carRepository.save(carToEdit);
     }
 
 
     public CarResponse setDiscount(int id, int value) {
 
-        Optional<Car> c = carRepository.findById(id);
-        Car car = c.orElse(null);
+        Car car = findCar(id);
         car.setBestDiscount(value);
         carRepository.save(car);
-        CarResponse carResponse = new CarResponse(car,true);
-        return carResponse;
+        return new CarResponse(car,true);
     }
 
     public void deleteCarById(int id) {
 
-        Optional<Car> c = carRepository.findById(id);
-        Car car = c.orElse(null);
+        Car car = findCar(id);
         carRepository.delete(car);
     }
+
 }

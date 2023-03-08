@@ -34,7 +34,9 @@ class MemberController {
 
     //ADMIN ONLY
     @GetMapping(path = "/{username}")
-    MemberResponse getMemberById(@PathVariable String username) throws Exception {return memberService.findMemberByUsername(username);}
+    MemberResponse getMemberById(@PathVariable String username) throws Exception {
+        return memberService.findMemberByUsername(username);
+    }
 
     //ANONYMOUS
     //@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -45,9 +47,10 @@ class MemberController {
 
     //MEMBER
     @PutMapping("/{username}")
-    public ResponseEntity<Boolean> editMember(@PathVariable String username, @RequestBody MemberRequest body) {
+    public ResponseEntity<Boolean> editMember(@RequestBody MemberRequest body, @PathVariable String username) {
 
-        return memberService.editMember(body, username);
+        memberService.editMember(body, username);
+        return ResponseEntity.ok(true);
     }
 
     //ADMIN ONLY
