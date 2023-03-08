@@ -24,7 +24,7 @@ import java.time.LocalDateTime;
 
 //opdateret CI/CD
 @Controller
-@EnableJpaRepositories(basePackages = {"dat3.car.security.repository","dat3.car.repository"})
+//@EnableJpaRepositories(basePackages = {"dat3.car.security.repository","dat3.car.repository"})
 public class DeveloperData  implements ApplicationRunner{
 
     @Autowired
