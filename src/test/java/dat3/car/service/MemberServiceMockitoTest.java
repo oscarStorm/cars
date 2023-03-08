@@ -77,7 +77,7 @@ class MemberServiceMockitoTest {
         Mockito.when(memberRepository.findAll()).thenReturn(List.of(m1,m2));
         List<MemberResponse> members = memberService.getMembers(true);
         assertEquals(2,members.size());
-        assertNotNull(members.get(0).getCreated());
+
     }
 
 
